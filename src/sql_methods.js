@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const { db_host, db_port, db_user, db_pass, db_base } = require('./config');
 
-let connection = mysql.createConnection({
+let connection = () => mysql.createConnection({
   host     : db_host,
   port     : db_port,
   user     : db_user,
@@ -9,10 +9,28 @@ let connection = mysql.createConnection({
   database : db_base
 });
 
-connection.connect(function(err) {
-  if (err) {
-    console.error('error connecting: ' + err.stack);
-    return;
+let check_connection = () => {
+  const conn = connection();
+  conn.connect(function(error) {
+    if (error) {
+      console.error('error connecting: ' + error.stack);
+      return false;
+    }
+    console.log('connected as id ' + conn.threadId);
+    return true;
+  });
+};
+
+
+class Sql {
+  constructor() {
+    this.connection = connection;
+
   }
-  console.log('connected as id ' + connection.threadId);
-});
+
+  /**
+   * Methods list...
+   */
+}
+
+console.log(check_connection());
