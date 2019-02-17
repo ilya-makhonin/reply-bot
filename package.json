@@ -20,5 +20,10 @@
   "bugs": {
     "url": "https://github.com/ilya-makhonin/reply-bot/issues"
   },
-  "homepage": "https://github.com/ilya-makhonin/reply-bot#readme"
+  "homepage": "https://github.com/ilya-makhonin/reply-bot#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mysql": "^2.16.0",
+    "node-telegram-bot-api": "^0.30.0"
+  }
 }
