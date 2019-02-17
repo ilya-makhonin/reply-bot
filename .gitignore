@@ -3,6 +3,8 @@ node_modules
 package-lock.json
 dist/
 build/
+config.js
+src/config.js
 
 *.log
 *.pem
