@@ -5,6 +5,7 @@ dist/
 build/
 config.js
 src/config.js
+src\config.js
 
 *.log
 *.pem
