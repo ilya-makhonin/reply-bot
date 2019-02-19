@@ -1,9 +1,13 @@
 /**
  * Constants for bot
- * @type { string }
+ * @type { string, number }
  */
 
+const CHAT = '';
 const TOKEN = '';
+const ADMINS = [
+  // admin_list
+];
 
 
 /**
@@ -32,7 +36,9 @@ const SERVER_HOST = '';
 
 module.exports = function () {
     return {
+      chat: CHAT,
       token: TOKEN,
+      admins: ADMINS,
       db_host: DB_HOST,
       db_port: DB_PORT,
       db_user: DB_USER,
@@ -44,4 +50,4 @@ module.exports = function () {
       server_port: SERVER_PORT,
       server_host: SERVER_HOST
     };
-};
+}();
