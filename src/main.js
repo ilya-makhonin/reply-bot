@@ -2,8 +2,8 @@ const express = require('express');
 // const { server_pkey, server_cert, server_list, server_port, server_host } = require('./config');
 
 const TOKEN = process.env.TELEGRAM_TOKEN || 'YOUR_TELEGRAM_BOT_TOKEN';
-const url = 'https://194.32.79.65';
-const port = process.env.PORT;
+const url = 'https://';
+const port = process.env.PORT || 3000;
 
 const TelegramBot = require('node-telegram-bot-api');
 const bodyParser = require('body-parser');
