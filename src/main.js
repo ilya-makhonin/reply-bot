@@ -11,11 +11,10 @@ const TelegramBot = require('node-telegram-bot-api');
 const bot = new TelegramBot(token);
 const app = express();
 
-
 bot.setWebHook(`${url}/bot${token}`);
 
 
-app.set('port', port);
+app.set('port', server_port);
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 
@@ -27,13 +26,12 @@ app.get(`/`, (req, res) => {
 
 
 app.post(`/bot${token}`, (req, res) => {
-  // bot.processUpdate(req.body);
-  console.log('Success!');
+  bot.processUpdate(req.body);
   res.sendStatus(200);
 });
 
 
-app.listen(port, () => {
+app.listen(server_port, () => {
   console.log(`Express server is listening on ${app.get('port')}`);
 });
 
