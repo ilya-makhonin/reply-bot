@@ -1,37 +1,44 @@
 const express = require('express');
-// const { server_pkey, server_cert, server_list, server_port, server_host } = require('./config');
-const TOKEN = process.env.TELEGRAM_TOKEN || 'YOUR_TELEGRAM_BOT_TOKEN';
-const url = 'https://';
-const port = process.env.PORT || 3000;
-const TelegramBot = require('node-telegram-bot-api');
 const bodyParser = require('body-parser');
-const bot = new TelegramBot(TOKEN);
+const morgan = require('morgan');
+const { token, server_port, server_host } = require('./config');
 
 
-// bot.setWebHook(`${url}/bot${TOKEN}`);
+const url = `http://${server_host}:${server_port}`;
+const TelegramBot = require('node-telegram-bot-api');
 
+
+const bot = new TelegramBot(token);
 const app = express();
 
+
+bot.setWebHook(`${url}/bot${token}`);
+
+
 app.set('port', port);
+app.use(morgan('dev'));
 app.use(bodyParser.json());
+
 
 app.get(`/`, (req, res) => {
   console.log('Success!');
   res.sendStatus(200);
 });
 
-app.post(`/bot${TOKEN}`, (req, res) => {
+
+app.post(`/bot${token}`, (req, res) => {
   // bot.processUpdate(req.body);
   console.log('Success!');
   res.sendStatus(200);
 });
+
 
 app.listen(port, () => {
   console.log(`Express server is listening on ${app.get('port')}`);
 });
 
 
-/*
+
 bot.onText(/\/start/, (msg) => {
   bot.sendMessage(msg.chat.id, '*Hi!*', {
     parse_mode: 'markdown'
@@ -41,4 +48,3 @@ bot.onText(/\/start/, (msg) => {
 bot.on('message', msg => {
   bot.sendMessage(msg.chat.id, 'I am alive!');
 });
-*/
