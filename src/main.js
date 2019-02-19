@@ -15,6 +15,11 @@ const app = express();
 app.set('port', port);
 app.use(bodyParser.json());
 
+app.get(`/`, (req, res) => {
+  console.log('Success!');
+  res.sendStatus(200);
+});
+
 app.post(`/bot${TOKEN}`, (req, res) => {
   // bot.processUpdate(req.body);
   console.log('Success!');
