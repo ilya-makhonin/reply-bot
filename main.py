@@ -5,13 +5,9 @@ import cherrypy
 import logging
 import telebot
 import time
+from source.config import *
 
-TOKEN = '782146814:AAGJ-8p8kvOXdurucHQRod1sfZs3JbOVa_4'
-WEB_HOOK_HOST = '194.32.79.65'
-WEB_HOOK_PORT = 88
-WEB_HOOK_LISTEN = '0.0.0.0'
-WEB_HOOK_SSL_CERT = './public_cert.pem'
-WEB_HOOK_SSL_PRIV = './private_key.pem'
+
 WEB_HOOK_URL_BASE = "https://%s:%s" % (WEB_HOOK_HOST, WEB_HOOK_PORT)
 WEB_HOOK_URL_PATH = "/%s/" % (TOKEN, )
 
