@@ -17,8 +17,10 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
 
     @bot.message_handler(func=lambda message: True)
     def forward_handler(message: telebot.types.Message):
-        print(message)
-        bot.forward_message(CHAT, message.chat.id, message.message_id)
+        if message.chat.id == int(CHAT):
+            bot.send_message(message.reply_to_message.forward_from.id, 'Random')
+        else:
+            bot.forward_message(CHAT, message.chat.id, message.message_id)
 
     if use_logging:
         logger = telebot.logger
