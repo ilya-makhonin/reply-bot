@@ -1,11 +1,10 @@
 .idea/
-node_modules
 package-lock.json
 dist/
 build/
-config.js
-src/config.js
-src\config.js
+venv/
+*venv
+
 
 *.log
 *.pem
