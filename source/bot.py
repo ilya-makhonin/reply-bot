@@ -15,8 +15,9 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
     def help_handler(message: telebot.types.Message):
         bot.send_message(message.from_user.id, help_mess)
 
-    @bot.message_handler(lambda message: True)
+    @bot.message_handler(func=lambda message: True)
     def forward_handler(message: telebot.types.Message):
+        print(message)
         bot.forward_message(CHAT, message.chat.id, message.message_id)
 
     if use_logging:
