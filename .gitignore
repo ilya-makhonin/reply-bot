@@ -3,8 +3,9 @@ package-lock.json
 dist/
 build/
 venv/
-*venv
+*/venv/
 
+*/config.py
 
 *.log
 *.pem
