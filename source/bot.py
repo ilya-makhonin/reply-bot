@@ -28,7 +28,7 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
                 logger.debug(f"In CHAT. Info: {message}")
             else:
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
-                logger.debug(f"Message from a user. Info: {message}")
+                logger.debug(f"Forward handler. Message from a user. Info: {message}")
         except Exception as error:
             logger.debug(f"Exception in forward handler. Info: {error}")
 

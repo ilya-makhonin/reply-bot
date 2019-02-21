@@ -48,8 +48,8 @@ def main():
         'server.ssl_certificate': WEB_HOOK_SSL_CERT,
         'server.ssl_private_key': WEB_HOOK_SSL_PRIV
     })
-    cherrypy.quickstart(WebHookServer(), WEB_HOOK_URL_PATH, {'/': {}})
     server_logger.debug("Server is started success")
+    cherrypy.quickstart(WebHookServer(), WEB_HOOK_URL_PATH, {'/': {}})
 
 
 if __name__ == '__main__':
