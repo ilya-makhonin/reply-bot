@@ -1,4 +1,5 @@
 import logging
+import os
 
 
 def log(name='main', file='logs.log', level='DEBUG'):
@@ -10,6 +11,8 @@ def log(name='main', file='logs.log', level='DEBUG'):
         ERROR=logging.ERROR,
         CRITICAL=logging.CRITICAL)
     # Creating the new logger
+    if not os.path.exists('logs/'):
+        os.mkdir('./logs/')
     logger = logging.getLogger(name)
     # Set logging level
     logging_level = logging_types.get(level) \
@@ -17,7 +20,7 @@ def log(name='main', file='logs.log', level='DEBUG'):
         else logging_types.get('DEBUG')
     logger.setLevel(logging_level)
     # Created file handler and set formatter
-    file_handler = logging.FileHandler(file)
+    file_handler = logging.FileHandler(f"./logs/{file}")
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     file_handler.setFormatter(formatter)
     # Added file handler and formatter
