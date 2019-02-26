@@ -57,4 +57,4 @@ if __name__ == '__main__':
     try:
         main()
     except Exception as error:
-        server_logger.debug(f"Error in main function. Info: {error}")
+        server_logger.debug(f"Error in main function. Info: {error.with_traceback(None)}")
