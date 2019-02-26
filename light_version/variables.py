@@ -1,5 +1,5 @@
-TOKEN = 'Bot token'
-CHAT = 'Private chat id'
+TOKEN = '730520943:AAE100EvcMuX1BjyuKG35_nFnoDanZ7aw78'
+CHAT = '-347645379'
 
 
 start_mess = 'Привет!\n\nПиши сюда свои вопросы, и мы на них ответим!'

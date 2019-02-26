@@ -1,23 +1,23 @@
 import telebot
 import logging
-from light_version.variables import *
+from variables import *
 
 
 bot = telebot.TeleBot(TOKEN)
 
 
 @bot.message_handler(commands=['start'])
-def start_handler(message: telebot.types.Message):
+def start_handler(message):
     bot.send_message(message.from_user.id, start_mess)
 
 
 @bot.message_handler(commands=['help'])
-def help_handler(message: telebot.types.Message):
+def help_handler(message):
     bot.send_message(message.from_user.id, help_mess)
 
 
 @bot.message_handler(func=lambda message: True)
-def forward_handler(message: telebot.types.Message):
+def forward_handler(message):
     try:
         if message.chat.id == int(CHAT):
             bot.send_message(message.reply_to_message.forward_from.id, message.text)
