@@ -19,6 +19,26 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
         bot.send_message(message.from_user.id, help_mess)
         logger.debug(f"It's help handler. Message from {message.from_user.id}")
 
+    @bot.message_handler(content_types=[''])
+    def sticker_handler(message: telebot.types.Message):
+        pass
+
+    @bot.message_handler(content_types=[''])
+    def images_handler(message: telebot.types.Message):
+        pass
+
+    @bot.message_handler(content_types=[''])
+    def file_handler(message: telebot.types.Message):
+        pass
+
+    @bot.message_handler(content_types=[''])
+    def audio_handler(message: telebot.types.Message):
+        pass
+
+    @bot.message_handler(content_types=[''])
+    def voice_handler(message: telebot.types.Message):
+        pass
+
     @bot.message_handler(func=lambda message: True)
     def forward_handler(message: telebot.types.Message):
         logger.debug(f"It's forward handler. Message from {message.from_user.id}")
