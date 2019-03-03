@@ -24,7 +24,7 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
         logger.debug(f"It's sticker handler. Data updates {message.from_user.id}")
         try:
             if message.chat.id == int(CHAT):
-                bot.send_message(message.reply_to_message.forward_from.id, message.text)
+                bot.send_sticker(message.reply_to_message.forward_from.id, message.sticker.file_id)
                 logger.debug(f"In CHAT. Info: {message}")
             else:
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
