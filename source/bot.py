@@ -19,25 +19,29 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
         bot.send_message(message.from_user.id, help_mess)
         logger.debug(f"It's help handler. Message from {message.from_user.id}")
 
-    @bot.message_handler(content_types=[''])
+    @bot.message_handler(content_types=['sticker'])
     def sticker_handler(message: telebot.types.Message):
         pass
 
-    @bot.message_handler(content_types=[''])
+    @bot.message_handler(content_types=['photo'])
     def images_handler(message: telebot.types.Message):
-        pass
+        logger.debug(f"It's images handler. Message from {message.from_user.id}")
+        print(message)
 
-    @bot.message_handler(content_types=[''])
+    @bot.message_handler(content_types=['document'])
     def file_handler(message: telebot.types.Message):
-        pass
+        logger.debug(f"It's file handler. Message from {message.from_user.id}")
+        print(message)
 
-    @bot.message_handler(content_types=[''])
+    @bot.message_handler(content_types=['audio'])
     def audio_handler(message: telebot.types.Message):
-        pass
+        logger.debug(f"It's audio handler. Message from {message.from_user.id}")
+        print(message)
 
-    @bot.message_handler(content_types=[''])
+    @bot.message_handler(content_types=['voice'])
     def voice_handler(message: telebot.types.Message):
-        pass
+        logger.debug(f"It's voice handler. Message from {message.from_user.id}")
+        print(message)
 
     @bot.message_handler(func=lambda message: True)
     def forward_handler(message: telebot.types.Message):
