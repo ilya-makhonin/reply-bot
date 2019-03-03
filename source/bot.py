@@ -21,9 +21,16 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
 
     @bot.message_handler(content_types=['sticker'])
     def sticker_handler(message: telebot.types.Message):
-        logger.debug(f"It's sticker handler. Data updates {message}")
-        print("It's sticker handler")
-        print(message)
+        logger.debug(f"It's sticker handler. Data updates {message.from_user.id}")
+        try:
+            if message.chat.id == int(CHAT):
+                bot.send_message(message.reply_to_message.forward_from.id, message.text)
+                logger.debug(f"In CHAT. Info: {message}")
+            else:
+                bot.forward_message(CHAT, message.chat.id, message.message_id)
+                logger.debug(f"Forward handler. Message from a user. Info: {message}")
+        except Exception as error:
+            logger.debug(f"Exception in forward handler. Info: {error.with_traceback(None)}")
 
     @bot.message_handler(content_types=['photo'])
     def images_handler(message: telebot.types.Message):
