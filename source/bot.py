@@ -21,26 +21,32 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
 
     @bot.message_handler(content_types=['sticker'])
     def sticker_handler(message: telebot.types.Message):
-        pass
+        logger.debug(f"It's sticker handler. Data updates {message}")
+        print("It's sticker handler")
+        print(message)
 
     @bot.message_handler(content_types=['photo'])
     def images_handler(message: telebot.types.Message):
-        logger.debug(f"It's images handler. Message from {message.from_user.id}")
+        logger.debug(f"It's images handler. Data updates {message}")
+        print("It's images handler")
         print(message)
 
     @bot.message_handler(content_types=['document'])
     def file_handler(message: telebot.types.Message):
-        logger.debug(f"It's file handler. Message from {message.from_user.id}")
+        logger.debug(f"It's file handler. Data updates {message}")
+        print("It's file handler")
         print(message)
 
     @bot.message_handler(content_types=['audio'])
     def audio_handler(message: telebot.types.Message):
-        logger.debug(f"It's audio handler. Message from {message.from_user.id}")
+        logger.debug(f"It's audio handler. Data updates {message}")
+        print("It's audio handler")
         print(message)
 
     @bot.message_handler(content_types=['voice'])
     def voice_handler(message: telebot.types.Message):
-        logger.debug(f"It's voice handler. Message from {message.from_user.id}")
+        logger.debug(f"It's voice handler. Data updates {message}")
+        print("It's voice handler")
         print(message)
 
     @bot.message_handler(func=lambda message: True)
