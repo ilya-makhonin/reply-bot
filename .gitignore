@@ -6,6 +6,8 @@ venv/
 */venv/
 
 */config.py
+source/config.py
+config.py
 
 *.log
 *.pem
