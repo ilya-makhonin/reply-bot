@@ -63,7 +63,7 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
         logger.info(f"It's audio handler. Message from {message.from_user.id}")
         try:
             if message.chat.id == int(CHAT):
-                bot.send_audio(message.reply_to_message.forward_from.id, message.audio[-1].file_id)
+                bot.send_audio(message.reply_to_message.forward_from.id, message.audio.file_id)
                 logger.info(f"In CHAT. Info: {message}")
             else:
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
