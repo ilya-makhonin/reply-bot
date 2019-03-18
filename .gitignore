@@ -5,15 +5,21 @@ build/
 venv/
 */venv/
 
-*/config.py
-source/config.py
 config.py
+*/config.py
 
 *.log
 *.pem
 *.key
 
+*/*.log
+*/*.pem
+*/*.key
+
 logs/
+src/logs/
+*/logs/
+
 light_version/
 
 __pycache__/
