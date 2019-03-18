@@ -1,8 +1,8 @@
 import telebot
 import logging
-from source.config import TOKEN, CHAT
-from source.log import log
-from source.variables import *
+from src.config import TOKEN, CHAT
+from src.log import log
+from src.variables import *
 
 
 def initial_bot(use_logging=True, level_name='DEBUG'):
