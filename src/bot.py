@@ -28,6 +28,7 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
                 logger.info(f"In CHAT. Info: {message}")
             else:
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
+                bot.send_message(message.from_user.id, success_mess)
                 logger.info(f"Sticker handler. Message from a user. Info: {message}")
         except Exception as error:
             logger.info(f"Exception in sticker handler. Info: {error.with_traceback(None)}")
@@ -41,6 +42,7 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
                 logger.info(f"In CHAT. Info: {message}")
             else:
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
+                bot.send_message(message.from_user.id, success_mess)
                 logger.info(f"Image handler. Message from a user. Info: {message}")
         except Exception as error:
             logger.info(f"Exception in image handler. Info: {error.with_traceback(None)}")
@@ -54,6 +56,7 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
                 logger.info(f"In CHAT. Info: {message}")
             else:
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
+                bot.send_message(message.from_user.id, success_mess)
                 logger.info(f"File handler. Message from a user. Info: {message}")
         except Exception as error:
             logger.info(f"Exception in file handler. Info: {error.with_traceback(None)}")
@@ -67,6 +70,7 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
                 logger.info(f"In CHAT. Info: {message}")
             else:
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
+                bot.send_message(message.from_user.id, success_mess)
                 logger.info(f"Audio handler. Message from a user. Info: {message}")
         except Exception as error:
             logger.info(f"Exception in audio handler. Info: {error.with_traceback(None)}")
@@ -80,6 +84,7 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
                 logger.info(f"In CHAT. Info: {message}")
             else:
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
+                bot.send_message(message.from_user.id, success_mess)
                 logger.info(f"Voice handler. Message from a user. Info: {message}")
         except Exception as error:
             logger.info(f"Exception in voice handler. Info: {error.with_traceback(None)}")
@@ -93,6 +98,7 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
                 logger.info(f"In CHAT. Info: {message}")
             else:
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
+                bot.send_message(message.from_user.id, success_mess)
                 logger.info(f"Text handler. Message from a user. Info: {message}")
         except Exception as error:
             logger.info(f"Exception in text handler. Info: {error.with_traceback(None)}")
