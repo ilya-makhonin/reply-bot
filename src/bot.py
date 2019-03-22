@@ -1,6 +1,6 @@
 import telebot
 import logging
-from src.config import TOKEN, CHAT
+from src.config import TOKEN, CHAT, admins_id
 from src.log import log
 from src.variables import *
 
@@ -8,6 +8,9 @@ from src.variables import *
 def initial_bot(use_logging=True, level_name='DEBUG'):
     bot = telebot.TeleBot(TOKEN)
     logger = log('bot', 'bot.log', 'INFO')
+    working = {
+        'disable': True
+    }
 
     @bot.message_handler(commands=['start'])
     def start_handler(message: telebot.types.Message):
@@ -18,6 +21,21 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
     def help_handler(message: telebot.types.Message):
         bot.send_message(message.from_user.id, help_mess)
         logger.info(f"It's help handler. Message from {message.from_user.id}")
+
+    @bot.message_handler(commands=['disable'])
+    def toggle_handler(message: telebot.types.Message):
+        logger.info(f"It's help handler. Message from {message.from_user.id}")
+        if message.from_user.id in admins_id:
+            working['disable'] = not working['disable']
+            if working.get('disable'):
+                bot.send_message(message.from_user.id, disable_mess)
+                return
+            bot.send_message(message.from_user.id, enable_mess)
+
+    @bot.message_handler(func=lambda message: working.get('disable'))
+    def check_working(message: telebot.types.Message):
+        bot.send_message(message.from_user.id, none_mess)
+        logger.info(f"It's check_working handler. Message from {message.from_user.id}")
 
     @bot.message_handler(content_types=['sticker'])
     def sticker_handler(message: telebot.types.Message):
