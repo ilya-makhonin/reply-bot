@@ -11,7 +11,7 @@ from bot import initial_bot
 WEB_HOOK_URL_BASE = "https://%s:%s" % (WEB_HOOK_HOST, WEB_HOOK_PORT)
 WEB_HOOK_URL_PATH = "/%s/" % (TOKEN, )
 
-BOT = initial_bot(use_logging=True)
+BOT = initial_bot(use_logging=True, level_name='INFO')
 server_logger = log('server', 'server.log')
 
 
