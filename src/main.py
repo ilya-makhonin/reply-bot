@@ -3,9 +3,9 @@
 import cherrypy
 import telebot
 import time
-from src.log import log
-from src.config import *
-from src.bot import initial_bot
+from log import log
+from config import *
+from bot import initial_bot
 
 
 WEB_HOOK_URL_BASE = "https://%s:%s" % (WEB_HOOK_HOST, WEB_HOOK_PORT)
