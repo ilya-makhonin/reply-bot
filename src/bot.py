@@ -9,7 +9,7 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
     bot = telebot.TeleBot(TOKEN)
     logger = log('bot', 'bot.log', 'INFO')
     working = {
-        'disable': True
+        'disable': False
     }
 
     @bot.message_handler(commands=['start'])
