@@ -31,6 +31,7 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
                 bot.send_message(message.from_user.id, disable_mess)
                 return
             bot.send_message(message.from_user.id, enable_mess)
+            logger.debug(f"Disable mode is {working['disable']}")
 
     @bot.message_handler(func=lambda message: working.get('disable'))
     def check_working(message: telebot.types.Message):

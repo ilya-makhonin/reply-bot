@@ -12,7 +12,7 @@ WEB_HOOK_URL_BASE = "https://%s:%s" % (WEB_HOOK_HOST, WEB_HOOK_PORT)
 WEB_HOOK_URL_PATH = "/%s/" % (TOKEN, )
 
 BOT = initial_bot(use_logging=True)
-server_logger = log('server', 'server.log', 'INFO')
+server_logger = log('server', 'server.log')
 
 
 class WebHookServer(object):
@@ -25,7 +25,7 @@ class WebHookServer(object):
             json_string = cherrypy.request.body.read(length).decode("utf-8")
             update = telebot.types.Update.de_json(json_string)
             BOT.process_new_updates([update])
-            server_logger.info(f"New updates. Info: {[update]}")
+            server_logger.debug(update)
             return ''
         else:
             server_logger.info(f"Server error! Error status 403")
