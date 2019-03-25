@@ -39,7 +39,7 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
         bot.send_message(message.from_user.id, none_mess)
         logger.debug(f"It's check_working handler. Message from {message.from_user.id}")
 
-    @bot.message_handler(func=lambda message: True)
+    @bot.message_handler(content_types=['text', 'photo', 'sticker'], func=lambda message: True)
     def testing(message: telebot.types.Message):
         try:
             if message.chat.id == int(CHAT):
