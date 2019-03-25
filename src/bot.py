@@ -8,9 +8,7 @@ from variables import *
 def initial_bot(use_logging=True, level_name='DEBUG'):
     bot = telebot.TeleBot(TOKEN)
     logger = log('bot', 'bot.log', 'INFO')
-    working = {
-        'disable': False
-    }
+    working = {'disable': False}
     hidden_forward = {}
 
     @bot.message_handler(commands=['start'])
@@ -37,8 +35,12 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
 
     @bot.message_handler(func=lambda message: working.get('disable'))
     def check_working(message: telebot.types.Message):
-        bot.send_message(message.from_user.id, none_mess)
-        logger.info(f"It's check_working handler. Message from {message.from_user.id}")
+        if message.chat.id == int(CHAT):
+            bot.send_message(CHAT, none_mess)
+            logger.info(f"It's check_working handler. Message from CHAT")
+        else:
+            bot.send_message(message.from_user.id, none_mess)
+            logger.info(f"It's check_working handler. Message from {message.from_user.id}")
 
     @bot.message_handler(content_types=['sticker'])
     def sticker_handler(message: telebot.types.Message):
