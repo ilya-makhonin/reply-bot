@@ -11,6 +11,7 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
     working = {
         'disable': False
     }
+    hidden_forward = {}
 
     @bot.message_handler(commands=['start'])
     def start_handler(message: telebot.types.Message):
@@ -113,9 +114,14 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
         logger.debug(f"It's text handler. Message from {message.from_user.id}")
         try:
             if message.chat.id == int(CHAT):
-                bot.send_message(message.reply_to_message.forward_from.id, message.text)
+                if message.reply_to_message.forward_from.id is None:
+                    bot.send_message(hidden_forward.get(message.reply_to_message.text), message.text)
+                    working.pop(message.reply_to_message.text)
+                else:
+                    bot.send_message(message.reply_to_message.forward_from.id, message.text)
                 logger.debug(f"In CHAT. Info: {message}")
             else:
+                hidden_forward[message.text] = message.from_user.id
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
                 bot.send_message(message.from_user.id, success_mess)
                 logger.debug(f"Text handler. Message from a user. Info: {message}")
