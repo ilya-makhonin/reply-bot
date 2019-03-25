@@ -48,7 +48,7 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
                     bot.send_sticker(hidden_forward.get(message.reply_to_message.date), message.sticker.file_id)
                 else:
                     bot.send_sticker(message.reply_to_message.forward_from.id, message.sticker.file_id)
-                hidden_forward.pop(message.reply_to_message.text)
+                hidden_forward.pop(message.reply_to_message.date)
                 logger.debug(f"In CHAT. Info: {message}")
             else:
                 hidden_forward[message.date] = message.from_user.id
@@ -68,7 +68,7 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
                     bot.send_photo(hidden_forward.get(message.reply_to_message.date), message.photo[-1].file_id)
                 else:
                     bot.send_photo(message.reply_to_message.forward_from.id, message.photo[-1].file_id)
-                hidden_forward.pop(message.reply_to_message.text)
+                hidden_forward.pop(message.reply_to_message.date)
                 logger.debug(f"In CHAT. Info: {message}")
             else:
                 hidden_forward[message.date] = message.from_user.id
@@ -84,9 +84,14 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
         logger.debug(f"It's file handler. Message from {message.from_user.id}")
         try:
             if message.chat.id == int(CHAT):
-                bot.send_document(message.reply_to_message.forward_from.id, message.document.file_id)
+                if message.reply_to_message.forward_from is None:
+                    bot.send_document(hidden_forward.get(message.reply_to_message.date), message.document.file_id)
+                else:
+                    bot.send_document(message.reply_to_message.forward_from.id, message.document.file_id)
+                hidden_forward.pop(message.reply_to_message.date)
                 logger.debug(f"In CHAT. Info: {message}")
             else:
+                hidden_forward[message.date] = message.from_user.id
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
                 bot.send_message(message.from_user.id, success_mess)
                 logger.debug(f"File handler. Message from a user. Info: {message}")
@@ -130,7 +135,7 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
                     bot.send_message(hidden_forward.get(message.reply_to_message.date), message.text)
                 else:
                     bot.send_message(message.reply_to_message.forward_from.id, message.text)
-                hidden_forward.pop(message.reply_to_message.text)
+                hidden_forward.pop(message.reply_to_message.date)
                 logger.debug(f"In CHAT. Info: {message}")
             else:
                 hidden_forward[message.date] = message.from_user.id
