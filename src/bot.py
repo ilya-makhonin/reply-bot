@@ -39,28 +39,23 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
         bot.send_message(message.from_user.id, none_mess)
         logger.debug(f"It's check_working handler. Message from {message.from_user.id}")
 
-    @bot.message_handler(content_types=['text', 'photo', 'sticker'], func=lambda message: True)
-    def testing(message: telebot.types.Message):
-        try:
-            if message.chat.id == int(CHAT):
-                print(message)
-            else:
-                bot.forward_message(CHAT, message.chat.id, message.message_id)
-                print(message)
-        except Exception as error:
-            print(error)
-
     @bot.message_handler(content_types=['sticker'])
     def sticker_handler(message: telebot.types.Message):
         logger.debug(f"It's sticker handler. Message from {message.from_user.id}")
         try:
             if message.chat.id == int(CHAT):
-                bot.send_sticker(message.reply_to_message.forward_from.id, message.sticker.file_id)
+                if message.reply_to_message.forward_from is None:
+                    bot.send_sticker(hidden_forward.get(message.reply_to_message.date), message.sticker.file_id)
+                else:
+                    bot.send_sticker(message.reply_to_message.forward_from.id, message.sticker.file_id)
+                hidden_forward.pop(message.reply_to_message.text)
                 logger.debug(f"In CHAT. Info: {message}")
             else:
+                hidden_forward[message.date] = message.from_user.id
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
                 bot.send_message(message.from_user.id, success_mess)
                 logger.debug(f"Sticker handler. Message from a user. Info: {message}")
+            logger.debug(f"Sticker handler: hidden_forward status is {hidden_forward}")
         except Exception as error:
             logger.debug(f"Exception in sticker handler. Info: {error.with_traceback(None)}")
 
@@ -69,12 +64,18 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
         logger.debug(f"It's images handler. Message from {message.from_user.id}")
         try:
             if message.chat.id == int(CHAT):
-                bot.send_photo(message.reply_to_message.forward_from.id, message.photo[-1].file_id)
+                if message.reply_to_message.forward_from is None:
+                    bot.send_photo(hidden_forward.get(message.reply_to_message.date), message.photo[-1].file_id)
+                else:
+                    bot.send_photo(message.reply_to_message.forward_from.id, message.photo[-1].file_id)
+                hidden_forward.pop(message.reply_to_message.text)
                 logger.debug(f"In CHAT. Info: {message}")
             else:
+                hidden_forward[message.date] = message.from_user.id
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
                 bot.send_message(message.from_user.id, success_mess)
                 logger.debug(f"Image handler. Message from a user. Info: {message}")
+            logger.debug(f"Photo handler: hidden_forward status is {hidden_forward}")
         except Exception as error:
             logger.debug(f"Exception in image handler. Info: {error.with_traceback(None)}")
 
@@ -126,13 +127,13 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
         try:
             if message.chat.id == int(CHAT):
                 if message.reply_to_message.forward_from is None:
-                    bot.send_message(hidden_forward.get(message.reply_to_message.text), message.text)
+                    bot.send_message(hidden_forward.get(message.reply_to_message.date), message.text)
                 else:
                     bot.send_message(message.reply_to_message.forward_from.id, message.text)
                 hidden_forward.pop(message.reply_to_message.text)
                 logger.debug(f"In CHAT. Info: {message}")
             else:
-                hidden_forward[message.text] = message.from_user.id
+                hidden_forward[message.date] = message.from_user.id
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
                 bot.send_message(message.from_user.id, success_mess)
                 logger.debug(f"Text handler. Message from a user. Info: {message}")
