@@ -39,6 +39,17 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
         bot.send_message(message.from_user.id, none_mess)
         logger.debug(f"It's check_working handler. Message from {message.from_user.id}")
 
+    @bot.message_handler(func=lambda message: True)
+    def testing(message: telebot.types.Message):
+        try:
+            if message.chat.id == int(CHAT):
+                print(message)
+            else:
+                bot.forward_message(CHAT, message.chat.id, message.message_id)
+                print(message)
+        except Exception as error:
+            print(error)
+
     @bot.message_handler(content_types=['sticker'])
     def sticker_handler(message: telebot.types.Message):
         logger.debug(f"It's sticker handler. Message from {message.from_user.id}")
@@ -114,17 +125,18 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
         logger.debug(f"It's text handler. Message from {message.from_user.id}")
         try:
             if message.chat.id == int(CHAT):
-                if message.reply_to_message.forward_from.id is None:
+                if message.reply_to_message.forward_from is None:
                     bot.send_message(hidden_forward.get(message.reply_to_message.text), message.text)
-                    working.pop(message.reply_to_message.text)
                 else:
                     bot.send_message(message.reply_to_message.forward_from.id, message.text)
+                hidden_forward.pop(message.reply_to_message.text)
                 logger.debug(f"In CHAT. Info: {message}")
             else:
                 hidden_forward[message.text] = message.from_user.id
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
                 bot.send_message(message.from_user.id, success_mess)
                 logger.debug(f"Text handler. Message from a user. Info: {message}")
+            logger.debug(f"Text handler: hidden_forward status is {hidden_forward}")
         except Exception as error:
             logger.debug(f"Exception in text handler. Info: {error.with_traceback(None)}")
 
