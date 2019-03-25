@@ -25,9 +25,9 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
     def toggle_handler(message: telebot.types.Message):
         logger.info(f"It's help handler. Message from {message.from_user.id}")
         if message.from_user.id in admins_id:
+            hidden_forward.clear()
             working['disable'] = not working['disable']
             if working.get('disable'):
-                hidden_forward.clear()
                 bot.send_message(message.from_user.id, disable_mess)
                 return
             bot.send_message(message.from_user.id, enable_mess)
@@ -41,6 +41,27 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
         else:
             bot.send_message(message.from_user.id, none_mess)
             logger.info(f"It's check_working handler. Message from {message.from_user.id}")
+
+    # ***********************************************************************************************************
+    @bot.message_handler(content_types=['text'])
+    def text_handler(message: telebot.types.Message):
+        logger.info(f"It's text handler. Message from {message.from_user.id}")
+        try:
+            if message.chat.id == int(CHAT):
+                if message.reply_to_message.forward_from is None:
+                    bot.send_message(hidden_forward.get(message.reply_to_message.date), message.text)
+                else:
+                    bot.send_message(message.reply_to_message.forward_from.id, message.text)
+                    hidden_forward.pop(message.reply_to_message.date)
+                logger.info(f"In CHAT. Info: {message}")
+            else:
+                hidden_forward[message.date] = message.from_user.id
+                bot.forward_message(CHAT, message.chat.id, message.message_id)
+                bot.send_message(message.from_user.id, success_mess)
+                logger.info(f"Text handler. Message from a user. Info: {message}")
+            logger.info(f"Text handler: hidden_forward status is {hidden_forward}")
+        except Exception as error:
+            logger.info(f"Exception in text handler. Info: {error.with_traceback(None)}")
 
     @bot.message_handler(content_types=['sticker'])
     def sticker_handler(message: telebot.types.Message):
@@ -141,26 +162,6 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
             logger.info(f"Voice handler: hidden_forward status is {hidden_forward}")
         except Exception as error:
             logger.info(f"Exception in voice handler. Info: {error.with_traceback(None)}")
-
-    @bot.message_handler(func=lambda message: True)
-    def text_handler(message: telebot.types.Message):
-        logger.info(f"It's text handler. Message from {message.from_user.id}")
-        try:
-            if message.chat.id == int(CHAT):
-                if message.reply_to_message.forward_from is None:
-                    bot.send_message(hidden_forward.get(message.reply_to_message.date), message.text)
-                else:
-                    bot.send_message(message.reply_to_message.forward_from.id, message.text)
-                    hidden_forward.pop(message.reply_to_message.date)
-                logger.info(f"In CHAT. Info: {message}")
-            else:
-                hidden_forward[message.date] = message.from_user.id
-                bot.forward_message(CHAT, message.chat.id, message.message_id)
-                bot.send_message(message.from_user.id, success_mess)
-                logger.info(f"Text handler. Message from a user. Info: {message}")
-            logger.info(f"Text handler: hidden_forward status is {hidden_forward}")
-        except Exception as error:
-            logger.info(f"Exception in text handler. Info: {error.with_traceback(None)}")
 
     if use_logging:
         telebot.logger.setLevel(logging.getLevelName(level_name))
