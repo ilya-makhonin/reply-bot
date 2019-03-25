@@ -23,14 +23,14 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
 
     @bot.message_handler(commands=['disable'])
     def toggle_handler(message: telebot.types.Message):
-        logger.info(f"It's help handler. Message from {message.from_user.id}")
-        if message.from_user.id in admins_id:
+        logger.info(f"It's disable handler. Message from {message.from_user.id}. Hidden_forward is {hidden_forward}")
+        if message.chat.id in admins_id:
             hidden_forward.clear()
             working['disable'] = not working['disable']
             if working.get('disable'):
                 bot.send_message(message.from_user.id, disable_mess)
-                return
-            bot.send_message(message.from_user.id, enable_mess)
+            else:
+                bot.send_message(message.from_user.id, enable_mess)
             logger.info(f"Disable mode is {working['disable']}")
 
     @bot.message_handler(func=lambda message: working.get('disable'))
@@ -53,13 +53,12 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
                 else:
                     bot.send_message(message.reply_to_message.forward_from.id, message.text)
                     hidden_forward.pop(message.reply_to_message.date)
-                logger.info(f"In CHAT. Info: {message}")
+                logger.info(f"In CHAT (text_handler). Hidden_forward is {hidden_forward}. Info: {message}")
             else:
                 hidden_forward[message.date] = message.from_user.id
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
                 bot.send_message(message.from_user.id, success_mess)
-                logger.info(f"Text handler. Message from a user. Info: {message}")
-            logger.info(f"Text handler: hidden_forward status is {hidden_forward}")
+                logger.info(f"Text handler. Message from a user. Hidden_forward is {hidden_forward} Info: {message}")
         except Exception as error:
             logger.info(f"Exception in text handler. Info: {error.with_traceback(None)}")
 
@@ -73,13 +72,12 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
                 else:
                     bot.send_sticker(message.reply_to_message.forward_from.id, message.sticker.file_id)
                     hidden_forward.pop(message.reply_to_message.date)
-                logger.info(f"In CHAT. Info: {message}")
+                logger.info(f"In CHAT (sticker_handler). Hidden_forward is {hidden_forward}. Info: {message}")
             else:
                 hidden_forward[message.date] = message.from_user.id
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
                 bot.send_message(message.from_user.id, success_mess)
-                logger.info(f"Sticker handler. Message from a user. Info: {message}")
-            logger.info(f"Sticker handler: hidden_forward status is {hidden_forward}")
+                logger.info(f"Sticker handler. Message from a user. Hidden_forward is {hidden_forward}. Info: {message}")
         except Exception as error:
             logger.info(f"Exception in sticker handler. Info: {error.with_traceback(None)}")
 
@@ -93,13 +91,12 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
                 else:
                     bot.send_photo(message.reply_to_message.forward_from.id, message.photo[-1].file_id)
                     hidden_forward.pop(message.reply_to_message.date)
-                logger.info(f"In CHAT. Info: {message}")
+                logger.info(f"In CHAT (images_handler). Hidden_forward is {hidden_forward}. Info: {message}")
             else:
                 hidden_forward[message.date] = message.from_user.id
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
                 bot.send_message(message.from_user.id, success_mess)
-                logger.info(f"Image handler. Message from a user. Info: {message}")
-            logger.info(f"Photo handler: hidden_forward status is {hidden_forward}")
+                logger.info(f"Image handler. Message from a user. Hidden_forward is {hidden_forward}. Info: {message}")
         except Exception as error:
             logger.info(f"Exception in image handler. Info: {error.with_traceback(None)}")
 
@@ -113,13 +110,12 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
                 else:
                     bot.send_document(message.reply_to_message.forward_from.id, message.document.file_id)
                     hidden_forward.pop(message.reply_to_message.date)
-                logger.info(f"In CHAT. Info: {message}")
+                logger.info(f"In CHAT (file_handler). Hidden_forward is {hidden_forward}. Info: {message}")
             else:
                 hidden_forward[message.date] = message.from_user.id
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
                 bot.send_message(message.from_user.id, success_mess)
-                logger.info(f"File handler. Message from a user. Info: {message}")
-            logger.info(f"Document handler: hidden_forward status is {hidden_forward}")
+                logger.info(f"File handler. Message from a user. Hidden_forward is {hidden_forward}. Info: {message}")
         except Exception as error:
             logger.info(f"Exception in file handler. Info: {error.with_traceback(None)}")
 
@@ -133,13 +129,12 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
                 else:
                     bot.send_audio(message.reply_to_message.forward_from.id, message.audio.file_id)
                     hidden_forward.pop(message.reply_to_message.date)
-                logger.info(f"In CHAT. Info: {message}")
+                logger.info(f"In CHAT (audio_handler). Hidden_forward is {hidden_forward}. Info: {message}")
             else:
                 hidden_forward[message.date] = message.from_user.id
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
                 bot.send_message(message.from_user.id, success_mess)
-                logger.info(f"Audio handler. Message from a user. Info: {message}")
-            logger.info(f"Audio handler: hidden_forward status is {hidden_forward}")
+                logger.info(f"Audio handler. Message from a user. Hidden_forward is {hidden_forward}. Info: {message}")
         except Exception as error:
             logger.info(f"Exception in audio handler. Info: {error.with_traceback(None)}")
 
@@ -153,13 +148,12 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
                 else:
                     bot.send_voice(message.reply_to_message.forward_from.id, message.voice.file_id)
                     hidden_forward.pop(message.reply_to_message.date)
-                logger.info(f"In CHAT. Info: {message}")
+                logger.info(f"In CHAT (voice_handler). Hidden_forward is {hidden_forward}. Info: {message}")
             else:
                 hidden_forward[message.date] = message.from_user.id
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
                 bot.send_message(message.from_user.id, success_mess)
-                logger.info(f"Voice handler. Message from a user. Info: {message}")
-            logger.info(f"Voice handler: hidden_forward status is {hidden_forward}")
+                logger.info(f"Voice handler. Message from a user. Hidden_forward is {hidden_forward}. Info: {message}")
         except Exception as error:
             logger.info(f"Exception in voice handler. Info: {error.with_traceback(None)}")
 
