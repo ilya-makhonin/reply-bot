@@ -57,7 +57,7 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
             else:
                 hidden_forward[message.date] = message.from_user.id
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
-                bot.send_message(message.from_user.id, success_mess)
+                bot.reply_to(message, success_mess)
                 logger.info(f"Text handler. Message from a user. Hidden_forward is {hidden_forward} Info: {message}")
         except Exception as error:
             logger.info(f"Exception in text handler. Info: {error.with_traceback(None)}")
@@ -76,7 +76,7 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
             else:
                 hidden_forward[message.date] = message.from_user.id
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
-                bot.send_message(message.from_user.id, success_mess)
+                bot.reply_to(message, success_mess)
                 logger.info(f"Sticker handler. Message from a user. Hidden_forward is {hidden_forward}. Info: {message}")
         except Exception as error:
             logger.info(f"Exception in sticker handler. Info: {error.with_traceback(None)}")
@@ -95,7 +95,7 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
             else:
                 hidden_forward[message.date] = message.from_user.id
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
-                bot.send_message(message.from_user.id, success_mess)
+                bot.reply_to(message, success_mess)
                 logger.info(f"Image handler. Message from a user. Hidden_forward is {hidden_forward}. Info: {message}")
         except Exception as error:
             logger.info(f"Exception in image handler. Info: {error.with_traceback(None)}")
@@ -114,7 +114,7 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
             else:
                 hidden_forward[message.date] = message.from_user.id
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
-                bot.send_message(message.from_user.id, success_mess)
+                bot.reply_to(message, success_mess)
                 logger.info(f"File handler. Message from a user. Hidden_forward is {hidden_forward}. Info: {message}")
         except Exception as error:
             logger.info(f"Exception in file handler. Info: {error.with_traceback(None)}")
