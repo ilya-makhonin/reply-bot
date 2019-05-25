@@ -5,7 +5,8 @@ import telebot
 import time
 from log import log
 from config import *
-from bot import initial_bot
+from bot import initial_bot, hidden_forward
+from threading import Thread
 
 
 WEB_HOOK_URL_BASE = "https://%s:%s" % (WEB_HOOK_HOST, WEB_HOOK_PORT)
@@ -13,6 +14,15 @@ WEB_HOOK_URL_PATH = "/%s/" % (TOKEN, )
 
 BOT = initial_bot(use_logging=True, level_name='INFO')
 server_logger = log('server', 'server.log')
+
+
+def update_cache(timeout: int):
+    try:
+        while True:
+            time.sleep(timeout)
+            hidden_forward.clear_data()
+    except Exception as err:
+        server_logger.warning(err.with_traceback(None))
 
 
 class WebHookServer(object):
