@@ -3,7 +3,7 @@ import logging
 from config import TOKEN, CHAT, admins_id
 from log import log
 from variables import *
-from src.forward import Forward
+from forward import Forward
 
 
 hidden_forward = Forward(False)
