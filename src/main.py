@@ -44,13 +44,24 @@ class WebHookServer(object):
 
 def main():
     server_logger.info("Start main function")
+    # Create a new thread
+    timeout = 120 if hidden_forward.get_mode() else 40000
+    thread = Thread(target=update_cache, name='CacheThread', args=[timeout])
+    thread.setDaemon(True)
+    thread.start()
+        
+    # Delete bot' web hooks
     BOT.remove_webhook()
     time.sleep(1)
+        
+    # Set bot' web hook
     BOT.set_webhook(url=WEB_HOOK_URL_BASE + WEB_HOOK_URL_PATH, certificate=open(WEB_HOOK_SSL_CERT, 'r'))
     server_logger.info("Web hook has been set success")
     access_log = cherrypy.log.access_log
+        
     for handler in tuple(access_log.handlers):
         access_log.removeHandler(handler)
+        
     cherrypy.config.update({
         'server.socket_host': WEB_HOOK_LISTEN,
         'server.socket_port': WEB_HOOK_PORT,
@@ -58,6 +69,7 @@ def main():
         'server.ssl_certificate': WEB_HOOK_SSL_CERT,
         'server.ssl_private_key': WEB_HOOK_SSL_PRIV
     })
+        
     server_logger.info("Server is started success")
     cherrypy.quickstart(WebHookServer(), WEB_HOOK_URL_PATH, {'/': {}})
 
@@ -68,3 +80,4 @@ if __name__ == '__main__':
         main()
     except Exception as error:
         server_logger.info(f"Error in main function. Info: {error.with_traceback(None)}")
+        print(f"Bot was crached. Error: {error.with_traceback(None)}")
