@@ -52,13 +52,13 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
         try:
             if message.chat.id == int(CHAT):
                 if message.reply_to_message.forward_from is None:
-                    bot.send_message(hidden_forward.get_id(message.reply_to_message.date), message.text)
+                    bot.send_message(hidden_forward.get_id(message), message.text)
                 else:
                     bot.send_message(message.reply_to_message.forward_from.id, message.text)
                     hidden_forward.delete_data(message)
                 logger.info(f"In CHAT (text_handler). Hidden_forward is {hidden_forward}. Info: {message}")
             else:
-                hidden_forward.add_key(message.from_user.id)
+                hidden_forward.add_key(message)
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
                 bot.reply_to(message, success_mess)
                 logger.info(f"Text handler. Message from a user. Hidden_forward is {hidden_forward} Info: {message}")
@@ -71,13 +71,13 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
         try:
             if message.chat.id == int(CHAT):
                 if message.reply_to_message.forward_from is None:
-                    bot.send_sticker(hidden_forward.get_id(message.reply_to_message.date), message.sticker.file_id)
+                    bot.send_sticker(hidden_forward.get_id(message), message.sticker.file_id)
                 else:
                     bot.send_sticker(message.reply_to_message.forward_from.id, message.sticker.file_id)
                     hidden_forward.delete_data(message)
                 logger.info(f"In CHAT (sticker_handler). Hidden_forward is {hidden_forward}. Info: {message}")
             else:
-                hidden_forward.add_key(message.from_user.id)
+                hidden_forward.add_key(message)
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
                 bot.reply_to(message, success_mess)
                 logger.info(f"Sticker handler. Message from a user. Hidden_forward is {hidden_forward}. Info: {message}")
@@ -90,13 +90,13 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
         try:
             if message.chat.id == int(CHAT):
                 if message.reply_to_message.forward_from is None:
-                    bot.send_photo(hidden_forward.get_id(message.reply_to_message.date), message.photo[-1].file_id)
+                    bot.send_photo(hidden_forward.get_id(message), message.photo[-1].file_id)
                 else:
                     bot.send_photo(message.reply_to_message.forward_from.id, message.photo[-1].file_id)
                     hidden_forward.delete_data(message)
                 logger.info(f"In CHAT (images_handler). Hidden_forward is {hidden_forward}. Info: {message}")
             else:
-                hidden_forward.add_key(message.from_user.id)
+                hidden_forward.add_key(message)
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
                 bot.reply_to(message, success_mess)
                 logger.info(f"Image handler. Message from a user. Hidden_forward is {hidden_forward}. Info: {message}")
@@ -109,13 +109,13 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
         try:
             if message.chat.id == int(CHAT):
                 if message.reply_to_message.forward_from is None:
-                    bot.send_document(hidden_forward.get_id(message.reply_to_message.date), message.document.file_id)
+                    bot.send_document(hidden_forward.get_id(message), message.document.file_id)
                 else:
                     bot.send_document(message.reply_to_message.forward_from.id, message.document.file_id)
                     hidden_forward.delete_data(message)
                 logger.info(f"In CHAT (file_handler). Hidden_forward is {hidden_forward}. Info: {message}")
             else:
-                hidden_forward.add_key(message.from_user.id)
+                hidden_forward.add_key(message)
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
                 bot.reply_to(message, success_mess)
                 logger.info(f"File handler. Message from a user. Hidden_forward is {hidden_forward}. Info: {message}")
@@ -128,13 +128,13 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
         try:
             if message.chat.id == int(CHAT):
                 if message.reply_to_message.forward_from is None:
-                    bot.send_audio(hidden_forward.get_id(message.reply_to_message.date), message.audio.file_id)
+                    bot.send_audio(hidden_forward.get_id(message), message.audio.file_id)
                 else:
                     bot.send_audio(message.reply_to_message.forward_from.id, message.audio.file_id)
                     hidden_forward.delete_data(message)
                 logger.info(f"In CHAT (audio_handler). Hidden_forward is {hidden_forward}. Info: {message}")
             else:
-                hidden_forward.add_key(message.from_user.id)
+                hidden_forward.add_key(message)
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
                 bot.send_message(message.from_user.id, success_mess)
                 logger.info(f"Audio handler. Message from a user. Hidden_forward is {hidden_forward}. Info: {message}")
@@ -147,13 +147,13 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
         try:
             if message.chat.id == int(CHAT):
                 if message.reply_to_message.forward_from is None:
-                    bot.send_voice(hidden_forward.get_id(message.reply_to_message.date), message.voice.file_id)
+                    bot.send_voice(hidden_forward.get_id(message), message.voice.file_id)
                 else:
                     bot.send_voice(message.reply_to_message.forward_from.id, message.voice.file_id)
                     hidden_forward.delete_data(message)
                 logger.info(f"In CHAT (voice_handler). Hidden_forward is {hidden_forward}. Info: {message}")
             else:
-                hidden_forward.add_key(message.from_user.id)
+                hidden_forward.add_key(message)
                 bot.forward_message(CHAT, message.chat.id, message.message_id)
                 bot.send_message(message.from_user.id, success_mess)
                 logger.info(f"Voice handler. Message from a user. Hidden_forward is {hidden_forward}. Info: {message}")
