@@ -7,6 +7,7 @@ from forward import Forward
 
 
 hidden_forward = Forward(False)
+for_ban = []
 
 
 def initial_bot(use_logging=True, level_name='DEBUG'):
@@ -36,6 +37,17 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
                 bot.send_message(message.from_user.id, enable_mess)
             logger.info(f"Disable mode is {working['disable']}")
 
+    @bot.message_handler(commands=['toban'])
+    def to_ban(message: telebot.types.Message):
+        try:
+            id_for_ban: str = message.text[6:].strip()
+            for_ban.append(int(id_for_ban))
+            bot.send_message(message.from_user.id, id_for_ban + ' user was blocked!')
+            logger.info(f"User {id_for_ban} was blocked. List of blocked user: {for_ban}")
+        except Exception as error:
+            bot.send_message(message.from_user.id, error.with_traceback(None))
+            logger.info(f"Exception in block handler. Info: {error.with_traceback(None)}")
+
     @bot.message_handler(func=lambda message: working.get('disable'))
     def check_working(message: telebot.types.Message):
         if message.chat.id == int(CHAT):
@@ -44,6 +56,26 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
         else:
             bot.send_message(message.from_user.id, none_mess)
             logger.info(f"It's check_working handler. Message from {message.from_user.id}")
+
+    @bot.message_handler(func=lambda x: x in for_ban)
+    def for_blocked_users(message: telebot.types.Message):
+        try:
+            bot.send_message(
+                message.from_user.id,
+                'Вы не можете отправлять сообщения, так как были заблокированны! Нужно было вести себя хорошо :)'
+            )
+            logger.info(f"User {message.from_user.id} tried to send a message. List of blocked user: {for_ban}")
+            bot.send_message(
+                int(admins_id[0]),
+                f'User {message.from_user.id}:\n'
+                f'{message.from_user.username}\n'
+                f'{message.from_user.first_name}\n'
+                f'{message.from_user.last_name}\n'
+                f'wanted to send message to our chat'
+            )
+        except Exception as error:
+            bot.send_message(int(admins_id[0]), f'Error in for_blocked_users handler {error.with_traceback(None)}')
+            logger.info(f"Exception in for_blocked_users handler. Info: {error.with_traceback(None)}")
 
     # ***********************************************************************************************************
     @bot.message_handler(content_types=['text'])
