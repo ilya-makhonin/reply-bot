@@ -57,7 +57,7 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
             bot.send_message(message.from_user.id, none_mess)
             logger.info(f"It's check_working handler. Message from {message.from_user.id}")
 
-    @bot.message_handler(func=lambda x: x in for_ban)
+    @bot.message_handler(func=lambda x: x.from_user.id in for_ban)
     def for_blocked_users(message: telebot.types.Message):
         try:
             bot.send_message(
