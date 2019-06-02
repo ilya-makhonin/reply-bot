@@ -39,14 +39,27 @@ def initial_bot(use_logging=True, level_name='DEBUG'):
 
     @bot.message_handler(commands=['toban'])
     def to_ban(message: telebot.types.Message):
-        try:
-            id_for_ban: str = message.text[6:].strip()
-            for_ban.append(int(id_for_ban))
-            bot.send_message(message.from_user.id, id_for_ban + ' user was blocked!')
-            logger.info(f"User {id_for_ban} was blocked. List of blocked user: {for_ban}")
-        except Exception as error:
-            bot.send_message(message.from_user.id, error.with_traceback(None))
-            logger.info(f"Exception in block handler. Info: {error.with_traceback(None)}")
+        if message.chat.id in admins_id:
+            try:
+                id_for_ban: str = message.text[6:].strip()
+                for_ban.append(int(id_for_ban))
+                bot.send_message(message.from_user.id, id_for_ban + ' user was blocked!')
+                logger.info(f"User {id_for_ban} was blocked. List of blocked user: {for_ban}")
+            except Exception as error:
+                bot.send_message(message.from_user.id, error.with_traceback(None))
+                logger.info(f"Exception in block handler. Info: {error.with_traceback(None)}")
+
+    @bot.message_handler(commands=['fromban'])
+    def from_ban(message: telebot.types.Message):
+        if message.chat.id in admins_id:
+            try:
+                id_for_un_ban: str = message.text[8:].strip()
+                for_ban.remove(int(id_for_un_ban))
+                bot.send_message(message.from_user.id, id_for_un_ban + ' user was unblocked!')
+                logger.info(f"User {id_for_un_ban} was unblocked. List of blocked user: {for_ban}")
+            except Exception as error:
+                bot.send_message(message.from_user.id, error.with_traceback(None))
+                logger.info(f"Exception in unblock handler. Info: {error.with_traceback(None)}")
 
     @bot.message_handler(func=lambda message: working.get('disable'))
     def check_working(message: telebot.types.Message):
