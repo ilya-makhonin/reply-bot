@@ -25,7 +25,7 @@ def update_cache(timeout: int):
         server_logger.warning(err.with_traceback(None))
 
 
-class WebHookServer(object):
+class WebHookServer:
     @cherrypy.expose
     def index(self):
         if 'content-length' in cherrypy.request.headers and \
